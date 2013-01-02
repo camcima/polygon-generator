@@ -47,7 +47,7 @@ function getCoordinates($center, $angle, $radius)
 {
     $point = array();
     $radians = deg2rad($angle);
-    $lngDist = sin($radians) * $radius;
+    $lngDist = cos($radians) * $radius;
     $lngDegree = getLatitudeDegreeInKm($center[1]);
     $point[0] = round($center[0] + ($lngDist / ($lngDegree * 1000)), 5);
     $latDist = sin($radians) * $radius;
