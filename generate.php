@@ -12,7 +12,8 @@ $maxAngle = 20;
 $minRadius = 500;
 $maxRadius = 1000;
 
-$numberPolygons = 10;
+$numberPolygons = 50000;
+echo '[';
 
 for ($i = 0; $i < $numberPolygons; $i++) {
     $currentAngle = -180;
@@ -25,17 +26,18 @@ for ($i = 0; $i < $numberPolygons; $i++) {
         $currentAngle += $angle;
         $point = getCoordinates($center, $currentAngle, $radius);
         if (!$firstPoint) {
-            $firstPoint = $point[0] . ' ' . $point[1];
+            $firstPoint = array($point[1], $point[0]);
         }
-        $polygon[] = $point[0] . ' ' . $point[1];
+        $polygon[] = array($point[1], $point[0]);
     }
     $polygon[] = $firstPoint;
 
-    echo 'POLYGON(( ';
-    echo implode(',', $polygon);
-    echo ' ))';
-    echo "\n";
+    echo json_encode($polygon);
+    if ($numberPolygons - $i > 1) {
+        echo ',';
+    } 
 }
+echo ']';
 
 function getRandomValue($minValue, $maxValue, $decimals) {
     $rand = mt_rand($minValue * pow(10, $decimals), $maxValue * pow(10, $decimals));
